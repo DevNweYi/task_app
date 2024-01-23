@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/utils/colors.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,7 +12,7 @@ class Home extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height / 2,
             decoration: BoxDecoration(
-                color: Colors.amber,
+                //color: primary,
                 borderRadius: BorderRadius.vertical(
                     bottom: Radius.elliptical(MediaQuery.of(context).size.width,
                         (MediaQuery.of(context).size.height / 2) - 150))),

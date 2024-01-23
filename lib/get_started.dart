@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/utils/colors.dart';
 
 class GetStarted extends StatelessWidget {
   const GetStarted({super.key});
@@ -27,16 +28,22 @@ class GetStarted extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text("Get Organized Your Life",
-                      textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineSmall!.merge(
-                              const TextStyle(fontWeight: FontWeight.bold))),
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .merge(const TextStyle(
+                                  fontWeight: FontWeight.bold))),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10,bottom: 10,left: 50,right: 50),
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 10, left: 50, right: 50),
                         child: Text(
                             "Tudy is a simple and effective to-do list and task manager app which helps you manage time.",
                             textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyMedium!.merge(
-                                const TextStyle(
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .merge(const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black38))),
                       ),
@@ -45,7 +52,13 @@ class GetStarted extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 30),
-                  child: ElevatedButton(onPressed: () {}, child: const Text("Get Started")),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: const ButtonStyle(
+                        backgroundColor:
+                            MaterialStatePropertyAll<Color>(secondaryColor)),
+                    child: const Text("Get Started"),
+                  ),
                 )
               ],
             ),

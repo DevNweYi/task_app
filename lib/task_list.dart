@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/utils/colors.dart';
 
 class TaskList extends StatelessWidget {
   const TaskList({super.key});
@@ -26,7 +27,7 @@ class TaskList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: Colors.green,
+        backgroundColor: secondaryColor,
         child: const Icon(
           Icons.add,
           color: Colors.white,
