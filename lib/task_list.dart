@@ -27,7 +27,7 @@ class TaskList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: secondaryColor,
+        backgroundColor: secondary,
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -44,7 +44,7 @@ class TaskList extends StatelessWidget {
           return ListTile(
             title: Text(
               "Task $index",
-              style: Theme.of(context).textTheme.bodyLarge!.merge(
+              style: Theme.of(context).textTheme.titleMedium!.merge(
                   const TextStyle(
                       fontWeight: FontWeight.bold,color: Colors.black54)),
             ),
@@ -56,7 +56,7 @@ class TaskList extends StatelessWidget {
     return Row(
       children: [
         Image.asset(
-          "images/man.png",
+          "assets/images/man.png",
           width: 50,
           height: 50,
         ),
@@ -64,13 +64,13 @@ class TaskList extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("8 Tasks",
-                style: Theme.of(context).textTheme.bodyLarge!.merge(
+                style: Theme.of(context).textTheme.titleMedium!.merge(
                     const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.grey))),
             Text("Personal",
                 style: Theme.of(context).textTheme.displaySmall!.merge(
                     const TextStyle(
-                        fontWeight: FontWeight.bold))),
+                        fontWeight: FontWeight.bold,color: Colors.black87))),
           ],
         )
       ],
@@ -81,11 +81,11 @@ class TaskList extends StatelessWidget {
     return Container(
       height: 150,
       decoration: BoxDecoration(
-          color: Colors.amber,
+          color: primary,
           borderRadius: BorderRadius.vertical(
               bottom: Radius.elliptical(screenWidth, 200))),
       child: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: const EdgeInsets.only(top: 40),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:task_app/utils/colors.dart';
 
 import 'get_started.dart';
-import 'home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,8 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData.light().copyWith(primaryColor: primaryColor),
-      home: const Home(),
+      theme: ThemeData.light().copyWith(primaryColor: primary),
+      home: const GetStarted(),
     );
   }
 }

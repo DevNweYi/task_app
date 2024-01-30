@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/home.dart';
 import 'package:task_app/utils/colors.dart';
 
 class GetStarted extends StatelessWidget {
@@ -9,12 +10,11 @@ class GetStarted extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.of(context).size.height / 2,
             width: MediaQuery.of(context).size.width,
-            color: Colors.amber,
             child: Image.asset(
-              "images/man.png",
+              "assets/images/man.png",
               width: 200,
               height: 200,
             ),
@@ -33,7 +33,8 @@ class GetStarted extends StatelessWidget {
                               .textTheme
                               .headlineSmall!
                               .merge(const TextStyle(
-                                  fontWeight: FontWeight.bold))),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87))),
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 10, bottom: 10, left: 50, right: 50),
@@ -42,7 +43,7 @@ class GetStarted extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyMedium!
+                                .titleMedium!
                                 .merge(const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black38))),
@@ -51,12 +52,19 @@ class GetStarted extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 30),
+                  padding:
+                      const EdgeInsets.only(bottom: 30, left: 30, right: 30),
                   child: ElevatedButton(
-                    onPressed: () {},
-                    style: const ButtonStyle(
-                        backgroundColor:
-                            MaterialStatePropertyAll<Color>(secondaryColor)),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => const Home()),
+                          (route) => false);
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: secondary,
+                        fixedSize: Size(MediaQuery.of(context).size.width, 60)),
                     child: const Text("Get Started"),
                   ),
                 )

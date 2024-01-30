@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/task_list.dart';
 import 'package:task_app/utils/colors.dart';
 
 class Home extends StatelessWidget {
@@ -12,13 +13,13 @@ class Home extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height / 2,
             decoration: BoxDecoration(
-                //color: primary,
+                color: primary,
                 borderRadius: BorderRadius.vertical(
                     bottom: Radius.elliptical(MediaQuery.of(context).size.width,
                         (MediaQuery.of(context).size.height / 2) - 150))),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+            padding: const EdgeInsets.only(left: 15, right: 15, top: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -26,39 +27,49 @@ class Home extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Hello Ender",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .merge(const TextStyle(
-                                    fontWeight: FontWeight.bold))),
-                        Text("Today you have 8 Tasks",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .merge(const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54))),
-                      ],
-                    ),
-                    Image.asset(
-                      "images/man.png",
-                      width: 50,
-                      height: 50,
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 15, right: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Hello Ender",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .merge(const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black87))),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text("Today you have 8 Tasks",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .merge(const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black54))),
+                        ],
+                      ),
+                      Image.asset(
+                        "assets/images/man.png",
+                        width: 50,
+                        height: 50,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 Expanded(
-                  child: _titleDetailList(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15),
+                    child: _titleDetailList(),
+                  ),
                 )
               ],
             ),
@@ -83,16 +94,25 @@ class Home extends StatelessWidget {
               height: 100,
               alignment: Alignment.center,
               child: ListTile(
-                leading: Image.asset("images/man.png"),
+                leading: Image.asset("assets/images/man.png"),
                 title: Text(
                   "Title",
                   style: Theme.of(context).textTheme.headlineSmall!.merge(
                       const TextStyle(
-                          fontWeight: FontWeight.bold)),
+                          fontWeight: FontWeight.bold, color: Colors.black87)),
                 ),
-                subtitle: Text("$index Tasks", style: Theme.of(context).textTheme.bodyLarge!.merge(
+                subtitle: Text(
+                  "$index Tasks",
+                  style: Theme.of(context).textTheme.titleMedium!.merge(
                       const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black38)),),
+                          fontWeight: FontWeight.bold, color: Colors.black38)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const TaskList()));
+                },
               ),
             ),
           );
