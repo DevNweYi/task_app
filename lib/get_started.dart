@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_app/bloc/started/bloc/started_bloc.dart';
 import 'package:task_app/home.dart';
 import 'package:task_app/utils/colors.dart';
 
@@ -7,6 +9,9 @@ class GetStarted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final StartedBloc startedBloc=BlocProvider.of<StartedBloc>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -56,11 +61,12 @@ class GetStarted extends StatelessWidget {
                       const EdgeInsets.only(bottom: 30, left: 30, right: 30),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
+                      startedBloc.add(GetStartedPressed());
+                     /*  Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => const Home()),
-                          (route) => false);
+                          (route) => false); */
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,

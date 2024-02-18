@@ -5,5 +5,6 @@ class Title{
   @PrimaryKey(autoGenerate: true)
   int titleId;
   String titleName;
-  Title({required this.titleId,required this.titleName});
+  String image;
+  Title({required this.titleId,required this.titleName,required this.image});
 }
