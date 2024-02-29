@@ -12,6 +12,8 @@ class StartedBloc extends Bloc<StartedEvent, StartedState> {
     });
     on<GetStartedPressed>((event, emit) {
       debugPrint("Pressed Get Started Button");
+      //added title
+      
     });
   }
 }
