@@ -62,11 +62,11 @@ class GetStarted extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       startedBloc.add(GetStartedPressed());
-                     /*  Navigator.pushAndRemoveUntil(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (BuildContext context) => const Home()),
-                          (route) => false); */
+                          (route) => false);
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,

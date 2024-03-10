@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:task_app/task_list.dart';
 import 'package:task_app/utils/colors.dart';
+import 'package:task_app/database/title/title_table.dart' as TitleTable;
+
+import 'database/app_database.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -65,12 +69,24 @@ class Home extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15),
-                    child: _titleDetailList(),
-                  ),
-                )
+                StreamBuilder(
+                    stream: GetIt.instance
+                        .get<AppDatabase>()
+                        .titleDao
+                        .getAllTitle(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: _titleDetailList(snapshot.data!),
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+
+                      }
+                      return CircularProgressIndicator();
+                    })
               ],
             ),
           )
@@ -79,11 +95,13 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget _titleDetailList() {
+  Widget _titleDetailList(List<TitleTable.Title> lstTitle) {
     return ListView.builder(
-        itemCount: 10,
+        itemCount:
+            lstTitle.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
+          TitleTable.Title title=lstTitle[index];
           return Card(
             color: Colors.white,
             margin: const EdgeInsets.only(bottom: 20),
@@ -96,7 +114,7 @@ class Home extends StatelessWidget {
               child: ListTile(
                 leading: Image.asset("assets/images/man.png"),
                 title: Text(
-                  "Title",
+                  title.titleName,
                   style: Theme.of(context).textTheme.headlineSmall!.merge(
                       const TextStyle(
                           fontWeight: FontWeight.bold, color: Colors.black87)),
