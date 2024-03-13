@@ -1,7 +1,10 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:task_app/bloc/started/bloc/started_bloc.dart';
 import 'package:task_app/database/app_database.dart';
+import 'package:task_app/home.dart';
 import 'package:task_app/utils/colors.dart';
 import 'package:get_it/get_it.dart';
 
@@ -24,11 +27,16 @@ class MyApp extends StatelessWidget {
           BlocProvider<StartedBloc>(create: (context) => StartedBloc())
         ],
         child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData.light().copyWith(primaryColor: primary),
-          home: const GetStarted(),
-        ));
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',
+            theme: ThemeData.light().copyWith(primaryColor: primary),
+            home: AnimatedSplashScreen(
+              splash: 'assets/images/man.png',
+              backgroundColor: primary,
+              nextScreen: const Home(),
+              splashTransition: SplashTransition.scaleTransition,
+              pageTransitionType: PageTransitionType.fade,
+            )));
     /*  */
   }
 }

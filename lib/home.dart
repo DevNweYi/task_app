@@ -112,7 +112,7 @@ class Home extends StatelessWidget {
               height: 100,
               alignment: Alignment.center,
               child: ListTile(
-                leading: Image.asset("assets/images/man.png"),
+                leading: Image.asset("assets/images/${title.imageName}"),
                 title: Text(
                   title.titleName,
                   style: Theme.of(context).textTheme.headlineSmall!.merge(

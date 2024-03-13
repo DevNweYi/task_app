@@ -18,4 +18,5 @@ abstract class TitleDao{
 
   @delete
   Future<void> deleteAllTitle(List<Title> titles);
+
 }

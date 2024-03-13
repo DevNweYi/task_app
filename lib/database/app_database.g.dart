@@ -87,7 +87,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titleName` TEXT NOT NULL, `image` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titleName` TEXT NOT NULL, `imageName` TEXT NOT NULL)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titleId` INTEGER NOT NULL, `taskName` TEXT NOT NULL)');
 
@@ -119,7 +119,7 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'image': item.image
+                  'imageName': item.imageName
                 },
             changeListener),
         _titleUpdateAdapter = UpdateAdapter(
@@ -129,7 +129,7 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'image': item.image
+                  'imageName': item.imageName
                 },
             changeListener),
         _titleDeletionAdapter = DeletionAdapter(
@@ -139,7 +139,7 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'image': item.image
+                  'imageName': item.imageName
                 },
             changeListener);
 
@@ -161,7 +161,7 @@ class _$TitleDao extends TitleDao {
         mapper: (Map<String, Object?> row) => Title(
             titleId: row['titleId'] as int,
             titleName: row['titleName'] as String,
-            image: row['image'] as String),
+            imageName: row['imageName'] as String),
         queryableName: 'title',
         isView: false);
   }
