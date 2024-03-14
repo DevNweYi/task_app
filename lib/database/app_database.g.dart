@@ -167,6 +167,16 @@ class _$TitleDao extends TitleDao {
   }
 
   @override
+  Future<Title?> getTitle(int titleId) async {
+    return _queryAdapter.query('select * from title where titleId=?1',
+        mapper: (Map<String, Object?> row) => Title(
+            titleId: row['titleId'] as int,
+            titleName: row['titleName'] as String,
+            imageName: row['imageName'] as String),
+        arguments: [titleId]);
+  }
+
+  @override
   Future<void> addTitle(Title title) async {
     await _titleInsertionAdapter.insert(title, OnConflictStrategy.abort);
   }

@@ -7,6 +7,9 @@ abstract class TitleDao{
   @Query("select * from title")
   Stream<List<Title>> getAllTitle();
 
+  @Query("select * from title where titleId=:titleId")
+  Future<Title?> getTitle(int titleId);
+
   @insert
   Future<void> addTitle(Title title);
 

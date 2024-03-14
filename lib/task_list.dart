@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:task_app/utils/colors.dart';
+import 'package:task_app/database/title/title_table.dart' as title_table;
+
+import 'database/app_database.dart';
 
 class TaskList extends StatelessWidget {
-  const TaskList({super.key});
+  final int titleId;
+  const TaskList({super.key, required this.titleId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +21,20 @@ class TaskList extends StatelessWidget {
                   left: 20, right: 20, top: 10, bottom: 10),
               child: Column(
                 children: [
-                  Container(child: _taskTitle(context)),
-                  const SizedBox(height: 15,),
+                  FutureBuilder<title_table.Title?>(
+                      future: GetIt.instance
+                          .get<AppDatabase>()
+                          .titleDao
+                          .getTitle(titleId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(child: _taskTitle(context,snapshot.data!));
+                        } else if (snapshot.hasError) {}
+                        return CircularProgressIndicator();
+                      }),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   Expanded(child: Container(child: _taskList())),
                 ],
               ),
@@ -46,20 +63,21 @@ class TaskList extends StatelessWidget {
               "Task $index",
               style: Theme.of(context).textTheme.titleMedium!.merge(
                   const TextStyle(
-                      fontWeight: FontWeight.bold,color: Colors.black54)),
+                      fontWeight: FontWeight.bold, color: Colors.black54)),
             ),
           );
         });
   }
 
-  Widget _taskTitle(BuildContext context) {
+  Widget _taskTitle(BuildContext context,title_table.Title title) {
     return Row(
       children: [
         Image.asset(
-          "assets/images/man.png",
+          "assets/images/${title.imageName}",
           width: 50,
           height: 50,
         ),
+        SizedBox(width: 20,),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -67,10 +85,10 @@ class TaskList extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium!.merge(
                     const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.grey))),
-            Text("Personal",
-                style: Theme.of(context).textTheme.displaySmall!.merge(
+            Text(title.titleName,
+                style: Theme.of(context).textTheme.headlineMedium!.merge(
                     const TextStyle(
-                        fontWeight: FontWeight.bold,color: Colors.black87))),
+                        fontWeight: FontWeight.bold, color: Colors.black87))),
           ],
         )
       ],

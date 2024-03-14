@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:task_app/task_list.dart';
 import 'package:task_app/utils/colors.dart';
-import 'package:task_app/database/title/title_table.dart' as TitleTable;
+import 'package:task_app/database/title/title_table.dart' as title_table;
 
 import 'database/app_database.dart';
 
@@ -95,13 +95,13 @@ class Home extends StatelessWidget {
     );
   }
 
-  Widget _titleDetailList(List<TitleTable.Title> lstTitle) {
+  Widget _titleDetailList(List<title_table.Title> lstTitle) {
     return ListView.builder(
         itemCount:
             lstTitle.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          TitleTable.Title title=lstTitle[index];
+          title_table.Title title=lstTitle[index];
           return Card(
             color: Colors.white,
             margin: const EdgeInsets.only(bottom: 20),
@@ -111,25 +111,28 @@ class Home extends StatelessWidget {
             child: Container(
               height: 100,
               alignment: Alignment.center,
-              child: ListTile(
-                leading: Image.asset("assets/images/${title.imageName}"),
-                title: Text(
-                  title.titleName,
-                  style: Theme.of(context).textTheme.headlineSmall!.merge(
-                      const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black87)),
-                ),
-                subtitle: Text(
-                  "$index Tasks",
-                  style: Theme.of(context).textTheme.titleMedium!.merge(
-                      const TextStyle(
-                          fontWeight: FontWeight.bold, color: Colors.black38)),
+              child: InkWell(
+                splashColor: Colors.amber,
+                child: ListTile(
+                  leading: Image.asset("assets/images/${title.imageName}"),
+                  title: Text(
+                    title.titleName,
+                    style: Theme.of(context).textTheme.titleLarge!.merge(
+                        const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black87)),
+                  ),
+                  subtitle: Text(
+                    "$index Tasks",
+                    style: Theme.of(context).textTheme.titleSmall!.merge(
+                        const TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black38)),
+                  ),
                 ),
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const TaskList()));
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => TaskList(titleId: title.titleId,)));
                 },
               ),
             ),
