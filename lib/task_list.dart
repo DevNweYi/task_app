@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:task_app/task_entry.dart';
 import 'package:task_app/utils/colors.dart';
 import 'package:task_app/database/title/title_table.dart' as title_table;
 
@@ -28,7 +29,8 @@ class TaskList extends StatelessWidget {
                           .getTitle(titleId),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return Container(child: _taskTitle(context,snapshot.data!));
+                          return Container(
+                              child: _taskTitle(context, snapshot.data!));
                         } else if (snapshot.hasError) {}
                         return CircularProgressIndicator();
                       }),
@@ -43,7 +45,12 @@ class TaskList extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const TaskEntry()));
+        },
         backgroundColor: secondary,
         child: const Icon(
           Icons.add,
@@ -69,7 +76,7 @@ class TaskList extends StatelessWidget {
         });
   }
 
-  Widget _taskTitle(BuildContext context,title_table.Title title) {
+  Widget _taskTitle(BuildContext context, title_table.Title title) {
     return Row(
       children: [
         Image.asset(
@@ -77,7 +84,9 @@ class TaskList extends StatelessWidget {
           width: 50,
           height: 50,
         ),
-        SizedBox(width: 20,),
+        SizedBox(
+          width: 20,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
