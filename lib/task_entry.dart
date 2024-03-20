@@ -9,22 +9,34 @@ class TaskEntry extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          _topContainer(context,MediaQuery.of(context).size.width),
+          _topContainer(context, MediaQuery.of(context).size.width),
           Padding(
             padding:
-                const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                const EdgeInsets.only(left: 20, right: 20, top: 70, bottom: 10),
             child: Column(
               children: [
-                TextField(),
+                TextField(
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Colors.green, width: 1)),
+                        hintText: 'Enter a new task',
+                        labelText: 'New Task')),
                 const SizedBox(
-                  height: 15,
+                  height: 50,
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: secondary,
-                      fixedSize: Size(MediaQuery.of(context).size.width, 60)),
-                  child: const Text("Add"),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: secondary,
+                        padding: EdgeInsets.only(
+                            top: 20, left: 40, right: 40, bottom: 20)
+                        // fixedSize: Size(MediaQuery.of(context).size.width, 60)
+                        ),
+                    child: const Text("Add"),
+                  ),
                 ),
               ],
             ),
@@ -34,7 +46,7 @@ class TaskEntry extends StatelessWidget {
     );
   }
 
-  Widget _topContainer(BuildContext context,double screenWidth) {
+  Widget _topContainer(BuildContext context, double screenWidth) {
     return Container(
       height: 150,
       decoration: BoxDecoration(
@@ -47,13 +59,16 @@ class TaskEntry extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
-            SizedBox(
-              width: 20,
+            Expanded(
+              child: Align(
+                child: Text("New Task",
+                    style: Theme.of(context).textTheme.titleLarge!.merge(
+                        const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87))),
+              ),
             ),
-             Text("New Task",
-                style: Theme.of(context).textTheme.titleSmall!.merge(
-                    const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black87))),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
           ],
         ),
       ),

@@ -9,6 +9,7 @@ import 'package:task_app/utils/colors.dart';
 import 'package:get_it/get_it.dart';
 
 import 'get_started.dart';
+import 'package:task_app/task_entry.dart';
 
 void main() {
   GetIt.I.registerSingletonAsync<AppDatabase>(
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
             home: AnimatedSplashScreen(
               splash: 'assets/images/man.png',
               backgroundColor: primary,
-              nextScreen: const Home(),
+              nextScreen: const TaskEntry(),
               splashTransition: SplashTransition.scaleTransition,
               pageTransitionType: PageTransitionType.fade,
             )));
