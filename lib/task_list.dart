@@ -49,7 +49,7 @@ class TaskList extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => const TaskEntry()));
+                  builder: (BuildContext context) => TaskEntry(titleId: titleId)));
         },
         backgroundColor: secondary,
         child: const Icon(

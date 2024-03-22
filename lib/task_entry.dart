@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:task_app/utils/colors.dart';
+import 'package:task_app/database/title/title_table.dart' as title_table;
+
+import 'database/app_database.dart';
 
 class TaskEntry extends StatelessWidget {
-  const TaskEntry({super.key});
+  final int titleId;
+  const TaskEntry({super.key, required this.titleId});
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +21,17 @@ class TaskEntry extends StatelessWidget {
             child: Column(
               children: [
                 TextField(
+                    cursorColor: secondary,
+                    autofocus: true,
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.green, width: 1)),
-                        hintText: 'Enter a new task',
-                        labelText: 'New Task')),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primary, width: 1)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: primary, width: 1)),
+                      hintText: 'Enter a new task',
+                      labelText: 'New Task',
+                      labelStyle: TextStyle(color: Colors.black87),
+                    )),
                 const SizedBox(
                   height: 50,
                 ),
@@ -59,15 +69,27 @@ class TaskEntry extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
-            Expanded(
-              child: Align(
-                child: Text("New Task",
-                    style: Theme.of(context).textTheme.titleLarge!.merge(
-                        const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87))),
-              ),
-            ),
+            FutureBuilder<title_table.Title?>(
+                future: GetIt.instance
+                    .get<AppDatabase>()
+                    .titleDao
+                    .getTitle(titleId),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Expanded(
+                      child: Align(
+                    child: Text("New Task for ${snapshot.data!.titleName}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge!
+                            .merge(const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87))),
+                      ),
+                    );
+                  } else if (snapshot.hasError) {}
+                  return CircularProgressIndicator();
+                }),
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
           ],
         ),

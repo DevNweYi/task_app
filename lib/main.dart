@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             home: AnimatedSplashScreen(
               splash: 'assets/images/man.png',
               backgroundColor: primary,
-              nextScreen: const TaskEntry(),
+              nextScreen: const Home(),
               splashTransition: SplashTransition.scaleTransition,
               pageTransitionType: PageTransitionType.fade,
             )));
