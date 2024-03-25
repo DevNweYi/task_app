@@ -9,8 +9,7 @@ class GetStarted extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final StartedBloc startedBloc=BlocProvider.of<StartedBloc>(context);
+    final StartedBloc startedBloc = BlocProvider.of<StartedBloc>(context);
 
     return Scaffold(
       body: Column(

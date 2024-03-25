@@ -4,8 +4,8 @@ import 'package:task_app/database/task/task_table.dart';
 @dao
 abstract class TaskDao{
 
-  @Query("select * from task")
-  Stream<List<Task>> getAllTask();
+  @Query("select * from task where titleId=:titleId")
+  Stream<List<Task>> getTask(int titleId);
 
   @insert
   Future<void> addTask(Task task);

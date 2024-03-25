@@ -5,4 +5,4 @@ sealed class StartedState {}
 
 final class StartedInitial extends StartedState {}
 
-final class GetStartedState extends StartedState{}
+final class GetStartedState extends StartedState {}

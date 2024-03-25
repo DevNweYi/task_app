@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:task_app/bloc/started/bloc/started_bloc.dart';
+import 'package:task_app/bloc/task/bloc/task_bloc.dart';
 import 'package:task_app/database/app_database.dart';
 import 'package:task_app/home.dart';
 import 'package:task_app/utils/colors.dart';
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider<StartedBloc>(create: (context) => StartedBloc())
+          BlocProvider<StartedBloc>(create: (context) => StartedBloc()),
+          BlocProvider<TaskBloc>(create: (context) => TaskBloc()),
         ],
         child: MaterialApp(
             debugShowCheckedModeBanner: false,

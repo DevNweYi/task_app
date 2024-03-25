@@ -5,6 +5,7 @@ import 'package:task_app/utils/colors.dart';
 import 'package:task_app/database/title/title_table.dart' as title_table;
 
 import 'database/app_database.dart';
+import 'database/task/task_table.dart';
 
 class TaskList extends StatelessWidget {
   final int titleId;
@@ -37,7 +38,20 @@ class TaskList extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  Expanded(child: Container(child: _taskList())),
+                  //Expanded(child: Container(child: _taskList())),
+                  StreamBuilder(
+                    stream: GetIt.instance
+                        .get<AppDatabase>()
+                        .taskDao
+                        .getTask(titleId),
+                    builder: (context,snapshot){
+                       if (snapshot.hasData) {
+                        return Expanded(child: Container(child: _taskList(snapshot.data!)));
+                      } else if (snapshot.hasError) {
+
+                      }
+                      return CircularProgressIndicator();
+                  })
                 ],
               ),
             ),
@@ -60,14 +74,15 @@ class TaskList extends StatelessWidget {
     );
   }
 
-  Widget _taskList() {
+  Widget _taskList(List<Task> lstTask) {
     return ListView.builder(
         shrinkWrap: true,
-        itemCount: 10,
+        itemCount: lstTask.length,
         itemBuilder: (context, index) {
+          Task task=lstTask[index];
           return ListTile(
             title: Text(
-              "Task $index",
+              task.taskName,
               style: Theme.of(context).textTheme.titleMedium!.merge(
                   const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black54)),

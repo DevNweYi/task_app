@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:task_app/bloc/task/bloc/task_bloc.dart';
 import 'package:task_app/utils/colors.dart';
 import 'package:task_app/database/title/title_table.dart' as title_table;
 
@@ -11,6 +13,9 @@ class TaskEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
+    TextEditingController taskInputController=TextEditingController();
+
     return Scaffold(
       body: Column(
         children: [
@@ -21,9 +26,10 @@ class TaskEntry extends StatelessWidget {
             child: Column(
               children: [
                 TextField(
+                  controller: taskInputController,
                     cursorColor: secondary,
                     autofocus: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: primary, width: 1)),
                       focusedBorder: OutlineInputBorder(
@@ -38,7 +44,9 @@ class TaskEntry extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      taskBloc.add(TaskAddEvent(titleId, taskInputController.text));
+                    },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,
                         padding: EdgeInsets.only(

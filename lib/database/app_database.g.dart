@@ -245,12 +245,13 @@ class _$TaskDao extends TaskDao {
   final DeletionAdapter<Task> _taskDeletionAdapter;
 
   @override
-  Stream<List<Task>> getAllTask() {
-    return _queryAdapter.queryListStream('select * from task',
+  Stream<List<Task>> getTask(int titleId) {
+    return _queryAdapter.queryListStream('select * from task where titleId=?1',
         mapper: (Map<String, Object?> row) => Task(
             taskId: row['taskId'] as int,
             titleId: row['titleId'] as int,
             taskName: row['taskName'] as String),
+        arguments: [titleId],
         queryableName: 'task',
         isView: false);
   }
