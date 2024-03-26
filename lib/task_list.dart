@@ -82,7 +82,7 @@ class TaskList extends StatelessWidget {
           Task task=lstTask[index];
           return ListTile(
             title: Text(
-              task.taskName,
+              task.taskName!,
               style: Theme.of(context).textTheme.titleMedium!.merge(
                   const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.black54)),
@@ -109,7 +109,7 @@ class TaskList extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium!.merge(
                     const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.grey))),
-            Text(title.titleName,
+            Text(title.titleName!,
                 style: Theme.of(context).textTheme.headlineMedium!.merge(
                     const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black87))),

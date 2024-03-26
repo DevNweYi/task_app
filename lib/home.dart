@@ -116,7 +116,7 @@ class Home extends StatelessWidget {
                 child: ListTile(
                   leading: Image.asset("assets/images/${title.imageName}"),
                   title: Text(
-                    title.titleName,
+                    title.titleName!,
                     style: Theme.of(context).textTheme.titleLarge!.merge(
                         const TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black87)),
@@ -132,7 +132,7 @@ class Home extends StatelessWidget {
                   Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => TaskList(titleId: title.titleId,)));
+                            builder: (BuildContext context) => TaskList(titleId: title.titleId!,)));
                 },
               ),
             ),

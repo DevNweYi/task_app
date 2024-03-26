@@ -14,7 +14,7 @@ class TaskEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
-    TextEditingController taskInputController=TextEditingController();
+    TextEditingController taskInputController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -26,7 +26,7 @@ class TaskEntry extends StatelessWidget {
             child: Column(
               children: [
                 TextField(
-                  controller: taskInputController,
+                    controller: taskInputController,
                     cursorColor: secondary,
                     autofocus: true,
                     decoration: const InputDecoration(
@@ -45,7 +45,8 @@ class TaskEntry extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      taskBloc.add(TaskAddEvent(titleId, taskInputController.text));
+                      taskBloc
+                          .add(TaskAddEvent(titleId, taskInputController.text));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,
@@ -86,13 +87,13 @@ class TaskEntry extends StatelessWidget {
                   if (snapshot.hasData) {
                     return Expanded(
                       child: Align(
-                    child: Text("New Task for ${snapshot.data!.titleName}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .merge(const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87))),
+                        child: Text("New Task for ${snapshot.data!.titleName}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .merge(const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87))),
                       ),
                     );
                   } else if (snapshot.hasError) {}
