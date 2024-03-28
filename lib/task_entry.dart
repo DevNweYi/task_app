@@ -7,14 +7,20 @@ import 'package:task_app/database/title/title_table.dart' as title_table;
 
 import 'database/app_database.dart';
 
-class TaskEntry extends StatelessWidget {
+class TaskEntry extends StatefulWidget {
   final int titleId;
   const TaskEntry({super.key, required this.titleId});
 
   @override
+  State<TaskEntry> createState() => _TaskEntryState();
+}
+
+class _TaskEntryState extends State<TaskEntry> {
+  TextEditingController taskInputController = TextEditingController();
+
+  @override
   Widget build(BuildContext context) {
     final TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
-    TextEditingController taskInputController = TextEditingController();
 
     return Scaffold(
       body: Column(
@@ -45,8 +51,8 @@ class TaskEntry extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
                     onPressed: () {
-                      taskBloc
-                          .add(TaskAddEvent(titleId, taskInputController.text));
+                      taskBloc.add(TaskAddEvent(
+                          widget.titleId, taskInputController.text));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,
@@ -63,6 +69,12 @@ class TaskEntry extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    taskInputController.dispose();
+    super.dispose();
   }
 
   Widget _topContainer(BuildContext context, double screenWidth) {
@@ -82,7 +94,7 @@ class TaskEntry extends StatelessWidget {
                 future: GetIt.instance
                     .get<AppDatabase>()
                     .titleDao
-                    .getTitle(titleId),
+                    .getTitle(widget.titleId),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Expanded(
