@@ -16,7 +16,7 @@ class TaskEntry extends StatefulWidget {
 }
 
 class _TaskEntryState extends State<TaskEntry> {
-  TextEditingController taskInputController = TextEditingController();
+  final TextEditingController _taskInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,19 +31,28 @@ class _TaskEntryState extends State<TaskEntry> {
                 const EdgeInsets.only(left: 20, right: 20, top: 70, bottom: 10),
             child: Column(
               children: [
-                TextField(
-                    controller: taskInputController,
-                    cursorColor: secondary,
-                    autofocus: true,
-                    decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: primary, width: 1)),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: primary, width: 1)),
-                      hintText: 'Enter a new task',
-                      labelText: 'New Task',
-                      labelStyle: TextStyle(color: Colors.black87),
-                    )),
+                BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
+                  if (state is TaskInitial) {
+                    _taskInputController.text = "";
+                  } else if (state is TaskAddSuccessState) {
+                    _taskInputController.text = "";
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text("Added")));
+                  }
+                  return TextField(
+                      controller: _taskInputController,
+                      cursorColor: secondary,
+                      autofocus: true,
+                      decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primary, width: 1)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: primary, width: 1)),
+                        hintText: 'Enter a new task',
+                        labelText: 'New Task',
+                        labelStyle: TextStyle(color: Colors.black87),
+                      ));
+                }),
                 const SizedBox(
                   height: 50,
                 ),
@@ -52,7 +61,7 @@ class _TaskEntryState extends State<TaskEntry> {
                   child: ElevatedButton(
                     onPressed: () {
                       taskBloc.add(TaskAddEvent(
-                          widget.titleId, taskInputController.text));
+                          widget.titleId, _taskInputController.text));
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: secondary,
@@ -73,7 +82,7 @@ class _TaskEntryState extends State<TaskEntry> {
 
   @override
   void dispose() {
-    taskInputController.dispose();
+    _taskInputController.dispose();
     super.dispose();
   }
 

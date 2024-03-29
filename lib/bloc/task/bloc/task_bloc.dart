@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
 import 'package:task_app/database/task/task_table.dart';
@@ -14,13 +13,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskEvent>((event, emit) {
       // TODO: implement event handler
     });
-    on<TaskAddEvent>((event, emit) {
-      GetIt.instance
+    on<TaskAddEvent>((event, emit) async {
+      await GetIt.instance
           .get<AppDatabase>()
           .taskDao
-          .addTask(Task(titleId: event.titleId, taskName: event.task)).then((value){
-              Fluttertoast.showToast(msg: "Added");
-          });
+          .addTask(Task(titleId: event.titleId, taskName: event.task))
+          .then((value) {
+        emit(TaskAddSuccessState());
+      });
     });
   }
 }
