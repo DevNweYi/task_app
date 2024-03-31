@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:task_app/bloc/task/bloc/task_bloc.dart';
 import 'package:task_app/utils/colors.dart';
@@ -32,12 +33,9 @@ class _TaskEntryState extends State<TaskEntry> {
             child: Column(
               children: [
                 BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
-                  if (state is TaskInitial) {
+                  if (state is TaskAddSuccessState) {
                     _taskInputController.text = "";
-                  } else if (state is TaskAddSuccessState) {
-                    _taskInputController.text = "";
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text("Added")));
+                    Fluttertoast.showToast(msg: "Added");
                   }
                   return TextField(
                       controller: _taskInputController,

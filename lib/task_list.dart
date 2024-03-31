@@ -40,18 +40,18 @@ class TaskList extends StatelessWidget {
                   ),
                   //Expanded(child: Container(child: _taskList())),
                   StreamBuilder(
-                    stream: GetIt.instance
-                        .get<AppDatabase>()
-                        .taskDao
-                        .getTask(titleId),
-                    builder: (context,snapshot){
-                       if (snapshot.hasData) {
-                        return Expanded(child: Container(child: _taskList(snapshot.data!)));
-                      } else if (snapshot.hasError) {
-
-                      }
-                      return CircularProgressIndicator();
-                  })
+                      stream: GetIt.instance
+                          .get<AppDatabase>()
+                          .taskDao
+                          .getTask(titleId),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Expanded(
+                              child:
+                                  Container(child: _taskList(snapshot.data!)));
+                        } else if (snapshot.hasError) {}
+                        return CircularProgressIndicator();
+                      })
                 ],
               ),
             ),
@@ -63,7 +63,8 @@ class TaskList extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (BuildContext context) => TaskEntry(titleId: titleId)));
+                  builder: (BuildContext context) =>
+                      TaskEntry(titleId: titleId)));
         },
         backgroundColor: secondary,
         child: const Icon(
@@ -79,13 +80,16 @@ class TaskList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: lstTask.length,
         itemBuilder: (context, index) {
-          Task task=lstTask[index];
-          return ListTile(
-            title: Text(
-              task.taskName!,
-              style: Theme.of(context).textTheme.titleMedium!.merge(
-                  const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.black54)),
+          Task task = lstTask[index];
+          return Card(
+            child: ListTile(
+              leading: Icon(Icons.note),
+              title: Text(
+                task.taskName!,
+                style: Theme.of(context).textTheme.titleMedium!.merge(
+                    const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.black54)),
+              ),
             ),
           );
         });
