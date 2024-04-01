@@ -87,9 +87,9 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titleName` TEXT NOT NULL, `imageName` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT, `titleName` TEXT, `imageName` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `task` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `titleId` INTEGER NOT NULL, `taskName` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `task` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT, `titleId` INTEGER, `taskName` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -159,9 +159,9 @@ class _$TitleDao extends TitleDao {
   Stream<List<Title>> getAllTitle() {
     return _queryAdapter.queryListStream('select * from title',
         mapper: (Map<String, Object?> row) => Title(
-            titleId: row['titleId'] as int,
-            titleName: row['titleName'] as String,
-            imageName: row['imageName'] as String),
+            titleId: row['titleId'] as int?,
+            titleName: row['titleName'] as String?,
+            imageName: row['imageName'] as String?),
         queryableName: 'title',
         isView: false);
   }
@@ -170,9 +170,9 @@ class _$TitleDao extends TitleDao {
   Future<Title?> getTitle(int titleId) async {
     return _queryAdapter.query('select * from title where titleId=?1',
         mapper: (Map<String, Object?> row) => Title(
-            titleId: row['titleId'] as int,
-            titleName: row['titleName'] as String,
-            imageName: row['imageName'] as String),
+            titleId: row['titleId'] as int?,
+            titleName: row['titleName'] as String?,
+            imageName: row['imageName'] as String?),
         arguments: [titleId]);
   }
 
@@ -248,12 +248,22 @@ class _$TaskDao extends TaskDao {
   Stream<List<Task>> getTask(int titleId) {
     return _queryAdapter.queryListStream('select * from task where titleId=?1',
         mapper: (Map<String, Object?> row) => Task(
-            taskId: row['taskId'] as int,
-            titleId: row['titleId'] as int,
-            taskName: row['taskName'] as String),
+            taskId: row['taskId'] as int?,
+            titleId: row['titleId'] as int?,
+            taskName: row['taskName'] as String?),
         arguments: [titleId],
         queryableName: 'task',
         isView: false);
+  }
+
+  @override
+  Future<Task?> getTaskByTaskID(int taskId) async {
+    return _queryAdapter.query('select * from task where taskId=?1',
+        mapper: (Map<String, Object?> row) => Task(
+            taskId: row['taskId'] as int?,
+            titleId: row['titleId'] as int?,
+            taskName: row['taskName'] as String?),
+        arguments: [taskId]);
   }
 
   @override

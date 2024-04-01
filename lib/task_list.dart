@@ -90,6 +90,13 @@ class TaskList extends StatelessWidget {
                     const TextStyle(
                         fontWeight: FontWeight.bold, color: Colors.black54)),
               ),
+              onTap: () {
+                Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) =>
+                      TaskEntry(titleId: titleId,taskId: task.taskId,)));
+              },
             ),
           );
         });

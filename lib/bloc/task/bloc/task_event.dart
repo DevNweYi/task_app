@@ -8,3 +8,8 @@ final class TaskAddEvent extends TaskEvent {
   final String task;
   TaskAddEvent(this.titleId, this.task);
 }
+
+final class TaskEditEvent extends TaskEvent {
+  final Task task;
+  TaskEditEvent(this.task);
+}

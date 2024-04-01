@@ -22,5 +22,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TaskAddSuccessState());
       });
     });
+    on<TaskEditEvent>((event, emit) async {
+      await GetIt.instance
+          .get<AppDatabase>()
+          .taskDao
+          .updateTask(event.task)
+          .then((value) {
+        emit(TaskEditSuccessState());
+      });
+    });
   }
 }
