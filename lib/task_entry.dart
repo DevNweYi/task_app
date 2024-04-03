@@ -19,6 +19,7 @@ class TaskEntry extends StatefulWidget {
 }
 
 class _TaskEntryState extends State<TaskEntry> {
+  //late final TaskBloc taskBloc;
   final TextEditingController _taskInputController = TextEditingController();
 
   @override
@@ -37,7 +38,7 @@ class _TaskEntryState extends State<TaskEntry> {
 
   @override
   Widget build(BuildContext context) {
-    final TaskBloc taskBloc = BlocProvider.of<TaskBloc>(context);
+    //taskBloc = BlocProvider.of<TaskBloc>(context);
 
     return Scaffold(
       body: Column(
@@ -62,6 +63,7 @@ class _TaskEntryState extends State<TaskEntry> {
                       builder: (context, state) {
                     if (state is TaskAddSuccessState) {
                       _taskInputController.text = "";
+                      BlocProvider.of<TaskBloc>(context).add(TaskInitialEvent());
                     }
                     return TextField(
                         controller: _taskInputController,
@@ -86,9 +88,9 @@ class _TaskEntryState extends State<TaskEntry> {
                   child: ElevatedButton(
                     onPressed: () {
                       widget.taskId == null
-                          ? taskBloc.add(TaskAddEvent(
+                          ? BlocProvider.of<TaskBloc>(context).add(TaskAddEvent(
                               widget.titleId, _taskInputController.text))
-                          : taskBloc.add(TaskEditEvent(Task(
+                          : BlocProvider.of<TaskBloc>(context).add(TaskEditEvent(Task(
                               taskId: widget.taskId,
                               titleId: widget.titleId,
                               taskName: _taskInputController.text)));

@@ -8,3 +8,5 @@ final class TaskInitial extends TaskState {}
 final class TaskAddSuccessState extends TaskState {}
 
 final class TaskEditSuccessState extends TaskState {}
+
+final class TaskDeleteSuccessState extends TaskState {}

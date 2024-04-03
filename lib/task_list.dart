@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:task_app/task_entry.dart';
 import 'package:task_app/utils/colors.dart';
 import 'package:task_app/database/title/title_table.dart' as title_table;
 
+import 'bloc/task/bloc/task_bloc.dart';
 import 'database/app_database.dart';
 import 'database/task/task_table.dart';
 
-class TaskList extends StatelessWidget {
+class TaskList extends StatefulWidget {
   final int titleId;
   const TaskList({super.key, required this.titleId});
 
   @override
+  State<TaskList> createState() => _TaskListState();
+}
+
+class _TaskListState extends State<TaskList> {
+  //late final TaskBloc taskBloc;
+
+  @override
   Widget build(BuildContext context) {
+    //taskBloc = BlocProvider.of<TaskBloc>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -27,7 +39,7 @@ class TaskList extends StatelessWidget {
                       future: GetIt.instance
                           .get<AppDatabase>()
                           .titleDao
-                          .getTitle(titleId),
+                          .getTitle(widget.titleId),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Container(
@@ -43,7 +55,7 @@ class TaskList extends StatelessWidget {
                       stream: GetIt.instance
                           .get<AppDatabase>()
                           .taskDao
-                          .getTask(titleId),
+                          .getTask(widget.titleId),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Expanded(
@@ -64,7 +76,7 @@ class TaskList extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (BuildContext context) =>
-                      TaskEntry(titleId: titleId)));
+                      TaskEntry(titleId: widget.titleId)));
         },
         backgroundColor: secondary,
         child: const Icon(
@@ -75,28 +87,50 @@ class TaskList extends StatelessWidget {
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Widget _taskList(List<Task> lstTask) {
     return ListView.builder(
         shrinkWrap: true,
         itemCount: lstTask.length,
         itemBuilder: (context, index) {
           Task task = lstTask[index];
-          return Card(
-            child: ListTile(
-              leading: Icon(Icons.note),
-              title: Text(
-                task.taskName!,
-                style: Theme.of(context).textTheme.titleMedium!.merge(
-                    const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.black54)),
+          return Slidable(
+            key: UniqueKey(),
+            startActionPane:
+                ActionPane(extentRatio: 0.3, motion: ScrollMotion(), children: [
+              SlidableAction(
+                onPressed: ((context) {
+                  BlocProvider.of<TaskBloc>(context).add(TaskDeleteEvent(task));
+                }),
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.black,
+                icon: Icons.delete,
+                label: 'Delete',
+              )
+            ]),
+            child: Card(
+              child: ListTile(
+                leading: Icon(Icons.note),
+                title: Text(
+                  task.taskName!,
+                  style: Theme.of(context).textTheme.titleMedium!.merge(
+                      const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black54)),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => TaskEntry(
+                                titleId: widget.titleId,
+                                taskId: task.taskId,
+                              )));
+                },
               ),
-              onTap: () {
-                Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      TaskEntry(titleId: titleId,taskId: task.taskId,)));
-              },
             ),
           );
         });

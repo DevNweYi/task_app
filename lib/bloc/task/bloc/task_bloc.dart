@@ -11,7 +11,7 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   TaskBloc() : super(TaskInitial()) {
     on<TaskEvent>((event, emit) {
-      // TODO: implement event handler
+      emit(TaskInitial());
     });
     on<TaskAddEvent>((event, emit) async {
       await GetIt.instance
@@ -29,6 +29,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           .updateTask(event.task)
           .then((value) {
         emit(TaskEditSuccessState());
+      });
+    });
+     on<TaskDeleteEvent>((event, emit) async {
+      await GetIt.instance
+          .get<AppDatabase>()
+          .taskDao
+          .deleteTask(event.task)
+          .then((value) {
+        emit(TaskDeleteSuccessState());
       });
     });
   }
