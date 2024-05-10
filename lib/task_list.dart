@@ -144,16 +144,27 @@ class _TaskListState extends State<TaskList> {
           width: 50,
           height: 50,
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("8 Tasks",
-                style: Theme.of(context).textTheme.titleMedium!.merge(
-                    const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.grey))),
+            StreamBuilder(
+                stream: GetIt.instance
+                    .get<AppDatabase>()
+                    .taskDao
+                    .getTotalTask(title.titleId!),
+                builder: ((context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text('${snapshot.data} tasks',
+                        style: Theme.of(context).textTheme.titleMedium!.merge(
+                            const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)));
+                  } else if (snapshot.hasError) {}
+                  return CircularProgressIndicator();
+                })),
             Text(title.titleName!,
                 style: Theme.of(context).textTheme.headlineMedium!.merge(
                     const TextStyle(

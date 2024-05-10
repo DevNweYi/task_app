@@ -257,6 +257,16 @@ class _$TaskDao extends TaskDao {
   }
 
   @override
+  Stream<int?> getTotalTask(int titleId) {
+    return _queryAdapter.queryStream(
+        'select count(taskId) from task where titleId=?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [titleId],
+        queryableName: 'task',
+        isView: false);
+  }
+
+  @override
   Future<Task?> getTaskByTaskID(int taskId) async {
     return _queryAdapter.query('select * from task where taskId=?1',
         mapper: (Map<String, Object?> row) => Task(

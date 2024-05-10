@@ -7,6 +7,9 @@ abstract class TaskDao{
   @Query("select * from task where titleId=:titleId")
   Stream<List<Task>> getTask(int titleId);
 
+  @Query("select count(taskId) from task where titleId=:titleId")
+  Stream<int?> getTotalTask(int titleId);
+
   @Query("select * from task where taskId=:taskId")
   Future<Task?> getTaskByTaskID(int taskId);
 

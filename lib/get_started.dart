@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_app/bloc/started/bloc/started_bloc.dart';
 import 'package:task_app/home.dart';
 import 'package:task_app/utils/colors.dart';
@@ -59,8 +60,10 @@ class GetStarted extends StatelessWidget {
                   padding:
                       const EdgeInsets.only(bottom: 30, left: 30, right: 30),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async{
                       startedBloc.add(GetStartedPressed());
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      await prefs.setBool('IsStartFinished', true);
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
