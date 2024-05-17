@@ -49,13 +49,23 @@ class Home extends StatelessWidget {
                           const SizedBox(
                             height: 8,
                           ),
-                          Text("Today you have 8 Tasks",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium!
-                                  .merge(const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black54))),
+                          StreamBuilder(
+                              stream: GetIt.instance
+                                  .get<AppDatabase>()
+                                  .taskDao
+                                  .getTotalTaskByTitleName('Today'),
+                              builder: ((context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Text('Today you have ${snapshot.data} Tasks',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .merge(const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54)));
+                                } else if (snapshot.hasError) {}
+                                return CircularProgressIndicator();
+                              })),
                         ],
                       ),
                       Image.asset(
@@ -73,7 +83,7 @@ class Home extends StatelessWidget {
                     stream: GetIt.instance
                         .get<AppDatabase>()
                         .titleDao
-                        .getAllTitle(),
+                        .getAllTitleAndTotalTask(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Expanded(
@@ -82,9 +92,7 @@ class Home extends StatelessWidget {
                             child: _titleDetailList(snapshot.data!),
                           ),
                         );
-                      } else if (snapshot.hasError) {
-
-                      }
+                      } else if (snapshot.hasError) {}
                       return CircularProgressIndicator();
                     })
               ],
@@ -97,11 +105,10 @@ class Home extends StatelessWidget {
 
   Widget _titleDetailList(List<title_table.Title> lstTitle) {
     return ListView.builder(
-        itemCount:
-            lstTitle.length,
+        itemCount: lstTitle.length,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          title_table.Title title=lstTitle[index];
+          title_table.Title title = lstTitle[index];
           return Card(
             color: Colors.white,
             margin: const EdgeInsets.only(bottom: 20),
@@ -119,20 +126,24 @@ class Home extends StatelessWidget {
                     title.titleName!,
                     style: Theme.of(context).textTheme.titleLarge!.merge(
                         const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black87)),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87)),
                   ),
                   subtitle: Text(
-                    "$index Tasks",
+                    "${title.totalTask} Tasks",
                     style: Theme.of(context).textTheme.titleSmall!.merge(
                         const TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black38)),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black38)),
                   ),
                 ),
                 onTap: () {
                   Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) => TaskList(titleId: title.titleId!,)));
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => TaskList(
+                                titleId: title.titleId!,
+                              )));
                 },
               ),
             ),

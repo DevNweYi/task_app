@@ -87,7 +87,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT, `titleName` TEXT, `imageName` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `title` (`titleId` INTEGER PRIMARY KEY AUTOINCREMENT, `titleName` TEXT, `imageName` TEXT, `totalTask` INTEGER)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `task` (`taskId` INTEGER PRIMARY KEY AUTOINCREMENT, `titleId` INTEGER, `taskName` TEXT)');
 
@@ -119,7 +119,8 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'imageName': item.imageName
+                  'imageName': item.imageName,
+                  'totalTask': item.totalTask
                 },
             changeListener),
         _titleUpdateAdapter = UpdateAdapter(
@@ -129,7 +130,8 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'imageName': item.imageName
+                  'imageName': item.imageName,
+                  'totalTask': item.totalTask
                 },
             changeListener),
         _titleDeletionAdapter = DeletionAdapter(
@@ -139,7 +141,8 @@ class _$TitleDao extends TitleDao {
             (Title item) => <String, Object?>{
                   'titleId': item.titleId,
                   'titleName': item.titleName,
-                  'imageName': item.imageName
+                  'imageName': item.imageName,
+                  'totalTask': item.totalTask
                 },
             changeListener);
 
@@ -161,7 +164,8 @@ class _$TitleDao extends TitleDao {
         mapper: (Map<String, Object?> row) => Title(
             titleId: row['titleId'] as int?,
             titleName: row['titleName'] as String?,
-            imageName: row['imageName'] as String?),
+            imageName: row['imageName'] as String?,
+            totalTask: row['totalTask'] as int?),
         queryableName: 'title',
         isView: false);
   }
@@ -172,8 +176,22 @@ class _$TitleDao extends TitleDao {
         mapper: (Map<String, Object?> row) => Title(
             titleId: row['titleId'] as int?,
             titleName: row['titleName'] as String?,
-            imageName: row['imageName'] as String?),
+            imageName: row['imageName'] as String?,
+            totalTask: row['totalTask'] as int?),
         arguments: [titleId]);
+  }
+
+  @override
+  Stream<List<Title>> getAllTitleAndTotalTask() {
+    return _queryAdapter.queryListStream(
+        'select til.titleId,titleName,imageName,count(tsk.taskId) as totalTask from title til left join task tsk on til.titleId=tsk.titleId group by til.titleId,titleName,imageName',
+        mapper: (Map<String, Object?> row) => Title(
+            titleId: row['titleId'] as int?,
+            titleName: row['titleName'] as String?,
+            imageName: row['imageName'] as String?,
+            totalTask: row['totalTask'] as int?),
+        queryableName: 'title',
+        isView: false);
   }
 
   @override
@@ -274,6 +292,16 @@ class _$TaskDao extends TaskDao {
             titleId: row['titleId'] as int?,
             taskName: row['taskName'] as String?),
         arguments: [taskId]);
+  }
+
+  @override
+  Stream<int?> getTotalTaskByTitleName(String titleName) {
+    return _queryAdapter.queryStream(
+        'select count(taskId) from task tsk inner join title til on tsk.titleId=til.titleId where titleName=?1',
+        mapper: (Map<String, Object?> row) => row.values.first as int,
+        arguments: [titleName],
+        queryableName: 'task',
+        isView: false);
   }
 
   @override

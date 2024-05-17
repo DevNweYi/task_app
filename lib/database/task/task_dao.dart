@@ -13,6 +13,9 @@ abstract class TaskDao{
   @Query("select * from task where taskId=:taskId")
   Future<Task?> getTaskByTaskID(int taskId);
 
+  @Query("select count(taskId) from task tsk inner join title til on tsk.titleId=til.titleId where titleName=:titleName")
+  Stream<int?> getTotalTaskByTitleName(String titleName);
+
   @insert
   Future<void> addTask(Task task);
 

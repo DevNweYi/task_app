@@ -10,6 +10,9 @@ abstract class TitleDao{
   @Query("select * from title where titleId=:titleId")
   Future<Title?> getTitle(int titleId);
 
+  @Query("select til.titleId,titleName,imageName,count(tsk.taskId) as totalTask from title til left join task tsk on til.titleId=tsk.titleId group by til.titleId,titleName,imageName")
+  Stream<List<Title>> getAllTitleAndTotalTask();
+
   @insert
   Future<void> addTitle(Title title);
 

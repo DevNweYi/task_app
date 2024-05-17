@@ -6,5 +6,6 @@ class Title{
   int? titleId;
   String? titleName;
   String? imageName;
-  Title({this.titleId,this.titleName,this.imageName});
+  int? totalTask;
+  Title({this.titleId,this.titleName,this.imageName,this.totalTask});
 }
